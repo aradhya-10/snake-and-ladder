@@ -63,8 +63,10 @@ public class SnakeLadder {
 	public static void main(String[] args) {
 		Player P1 = new Player();
 		System.out.println("Player's initial position: " + P1.getCurrentPosition());
+		int numberOfMoves = 0;
 		while(P1.getCurrentPosition()<100)
 		{
+			numberOfMoves++;
 			int move = P1.rollDice();
 			System.out.println("Dice roll: "+move);
 			if(P1.getCurrentPosition()+move<=100)
@@ -75,5 +77,6 @@ public class SnakeLadder {
 				P1.setCurrentPosition(finalPosition);
 			System.out.println("Player's final position: " + P1.getCurrentPosition());
 		}
+		System.out.println("Game completed in "+numberOfMoves+" moves.");
 	}
 }
