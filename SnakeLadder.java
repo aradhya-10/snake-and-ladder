@@ -2,10 +2,12 @@ import java.util.*;
 
 class Player {
 
+    int numberOfMoves;
     private int currentPosition;
 
     public Player() {
         this.currentPosition = 0;
+		this.numberOfMoves = 0;
     }
 
     public int getCurrentPosition() {
@@ -36,47 +38,63 @@ public class SnakeLadder {
 		boardConfig.put(50,34);
 		boardConfig.put(39, 3);
 		boardConfig.put(27, 7);
-		boardConfig.put(2 ,23);
-		boardConfig.put(6 ,29);
-		boardConfig.put(6 ,29);
+		boardConfig.put( 2,23);
+		boardConfig.put( 6,29);
+		boardConfig.put( 6,29);
 		boardConfig.put(22,41);
 		boardConfig.put(28,77);
 		boardConfig.put(30,32);
 		boardConfig.put(44,58);
 		boardConfig.put(54,69);
 		boardConfig.put(99,26);
-		boardConfig.put( 6,29);
 		boardConfig.put(70,90);
 		boardConfig.put(80,83);
 		boardConfig.put(87,93);
 	}
 
-	public static int movePlayer(int currentPosition){
+	public static boolean movePlayer(Player currPlayer){
+		boolean isLadder = false;
+		int currentPosition = currPlayer.getCurrentPosition();
 		if(boardConfig.containsKey(currentPosition)){
 			int finalPosition = boardConfig.get(currentPosition);
-			System.out.println(finalPosition>currentPosition?"Ladder":"Snake");
-			return finalPosition;
+			if(finalPosition>currentPosition)
+			{
+				System.out.println("Ladder found");
+				isLadder = true;
+			}
+			else{
+				System.out.println("Snake found");
+			}
+			if(finalPosition<=100)
+				currPlayer.setCurrentPosition(finalPosition);
 		}
-		return currentPosition;
+		return isLadder;
 	}
 
 	public static void main(String[] args) {
 		Player P1 = new Player();
+		Player P2 = new Player();
+		
+		Player currPlayer;
+		int player = 1;
 		System.out.println("Player's initial position: " + P1.getCurrentPosition());
 		int numberOfMoves = 0;
-		while(P1.getCurrentPosition()<100)
+		while(P1.getCurrentPosition()<100 && P2.getCurrentPosition()<100)
 		{
-			numberOfMoves++;
-			int move = P1.rollDice();
+			currPlayer = player == 1 ? P1 : P2;
+			currPlayer.numberOfMoves++;
+			int move = currPlayer.rollDice();
 			System.out.println("Dice roll: "+move);
-			if(P1.getCurrentPosition()+move<=100)
-				P1.setCurrentPosition(P1.getCurrentPosition()+move);
-			System.out.println("Player's moved position: " + P1.getCurrentPosition());
-			int finalPosition = movePlayer(P1.getCurrentPosition());
-			if(finalPosition<=100)
-				P1.setCurrentPosition(finalPosition);
-			System.out.println("Player's final position: " + P1.getCurrentPosition());
+			if(currPlayer.getCurrentPosition()+move<=100)
+				currPlayer.setCurrentPosition(currPlayer.getCurrentPosition()+move);
+			System.out.println("Player's moved position: " + currPlayer.getCurrentPosition());
+			boolean isLadder = movePlayer(currPlayer);
+			System.out.println("Player " +player+"'s final position: " + currPlayer.getCurrentPosition());
+			if(!isLadder)
+				player = player == 1 ? 2 : 1;
 		}
-		System.out.println("Game completed in "+numberOfMoves+" moves.");
+		player = player == 1 ? 2 : 1;		
+		currPlayer = player == 1 ? P1 : P2;
+		System.out.println("Winner: Player "+ player +".\nGame completed in "+currPlayer.numberOfMoves+" moves.");
 	}
 }
