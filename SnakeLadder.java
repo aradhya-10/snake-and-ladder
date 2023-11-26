@@ -67,9 +67,12 @@ public class SnakeLadder {
 		{
 			int move = P1.rollDice();
 			System.out.println("Dice roll: "+move);
-			P1.setCurrentPosition(P1.getCurrentPosition()+move);
+			if(P1.getCurrentPosition()+move<=100)
+				P1.setCurrentPosition(P1.getCurrentPosition()+move);
 			System.out.println("Player's moved position: " + P1.getCurrentPosition());
-			P1.setCurrentPosition(movePlayer(P1.getCurrentPosition()));
+			int finalPosition = movePlayer(P1.getCurrentPosition());
+			if(finalPosition<=100)
+				P1.setCurrentPosition(finalPosition);
 			System.out.println("Player's final position: " + P1.getCurrentPosition());
 		}
 	}
