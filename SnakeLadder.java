@@ -78,7 +78,6 @@ public class SnakeLadder {
 		Player currPlayer;
 		int player = 1;
 		System.out.println("Player's initial position: " + P1.getCurrentPosition());
-		int numberOfMoves = 0;
 		while(P1.getCurrentPosition()<100 && P2.getCurrentPosition()<100)
 		{
 			currPlayer = player == 1 ? P1 : P2;
